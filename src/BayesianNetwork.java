@@ -1,23 +1,23 @@
 import org.w3c.dom.Document;
+import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
-import org.w3c.dom.Element;
 
-
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.DocumentBuilder;
-
+import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.File;
-import java.util.Arrays;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class BayesianNetwork {
-    private Map<Variable, List<Variable>> adjacencyList;
+    //    private Map<Variable, List<Variable>> adjacencyList;
+    private List<Variable> variables;
 
     public BayesianNetwork(File file) {
-        Boolean flag = parseXML(file);
+        variables = new ArrayList<>();
+        parseXML(file);
     }
 
     /**
@@ -34,7 +34,7 @@ public class BayesianNetwork {
      * @param xmlFile an XML file representing the Bayesian Network structure.
      * @return true on success, false on error.
      */
-    private Boolean parseXML(File xmlFile) {
+    private void parseXML(File xmlFile) {
         try {
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
             DocumentBuilder builder = factory.newDocumentBuilder();
@@ -54,6 +54,18 @@ public class BayesianNetwork {
                     String name = vElement.getElementsByTagName("NAME").item(0).getTextContent();
                     Variable variable = new Variable(name);
                     variableMap.put(name, variable);
+
+                    NodeList outcomeNodes = vElement.getElementsByTagName("OUTCOME");
+                    for (int j = 0; j < outcomeNodes.getLength(); j++) {
+                        variable.updateOutcome(outcomeNodes.item(j).getTextContent());
+                    }
+
+                    // Check that outcomes are ok - can be deleted when done
+                    System.out.println(variable.getName() + " outcomes: ");
+                    for (String outcome : variable.getOutcomes()) {
+                        System.out.println(outcome);
+                    }
+
                 }
             }
 
@@ -69,7 +81,7 @@ public class BayesianNetwork {
                     Variable variable = variableMap.get(forVariable);
 
                     // <GIVEN> tags
-                    NodeList givenNodes = document.getElementsByTagName("GIVEN");
+                    NodeList givenNodes = dElement.getElementsByTagName("GIVEN");
                     for (int j = 0; j < givenNodes.getLength(); j++) {
                         String givenVariable = givenNodes.item(j).getTextContent();
                         Variable parentVariable = variableMap.get(givenVariable);
@@ -80,29 +92,27 @@ public class BayesianNetwork {
                     // <TABLE> tag
                     String tableContent = dElement.getElementsByTagName("TABLE").item(0).getTextContent();
                     String[] probabilities = tableContent.split("\\s+");
-//                    variable.updateCPT(probabilities);
-                    System.out.println(tableContent);
 
                     // convert probability strings to floats
                     float[] numbers = new float[probabilities.length];
-                    for (int num = 0; num < numbers.length; i++){
+                    for (int num = 0; num < numbers.length; num++) {
                         numbers[num] = Float.parseFloat(probabilities[num]);
                     }
 
                     // update the CPT of variable with the probabilities
-                    variable.updateCPT(variable.getParents(), numbers);
-
+                    variable.getCpt().updateCPT(variable, variable.getParents(), numbers);
+                    variables.add(variable);
                 }
             }
-
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
-        return false;
     }
 
+    /****************** Getters and Setters ******************/
+    public List<Variable> getVariables() {
+        return variables;
+    }
 }
 
 

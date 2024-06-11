@@ -1,7 +1,5 @@
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 public class Variable {
     private String name;
@@ -9,33 +7,23 @@ public class Variable {
     private CPT cpt = new CPT();
     private List<Variable> parents = new ArrayList<>();
     private List<Variable> children = new ArrayList<>();
-
     private List<String> outcomes = new ArrayList<>();
 
 
-    //    public Variable(String name, int[][] cpt, List<Variable> parents, List<Variable> children) {
     public Variable(String name) {
         this.name = name;
     }
 
-    public void updateCPT(List<Variable> parents, float[] probabilities) {
-        String variableName = "";
-        String outcome = "";
-        String target = "";
-        float probability;
-        int i = 0;
-        for (Variable parent : this.parents) {
-            variableName = parent.getName();
-
-
-        }
-//        this.cpt.updateCPT(variable, value, target, probability);
+    public void updateOutcome(String outcome) {
+        this.outcomes.add(outcome);
     }
 
-    public void addParent(Variable parentVariable) {
+    public void addParent(Variable parent) {
+        this.parents.add(parent);
     }
 
-    public void addChild(Variable variable) {
+    public void addChild(Variable child) {
+        this.children.add(child);
     }
 
 
@@ -79,4 +67,6 @@ public class Variable {
     public void setOutcomes(List<String> outcomes) {
         this.outcomes = outcomes;
     }
+
+
 }
