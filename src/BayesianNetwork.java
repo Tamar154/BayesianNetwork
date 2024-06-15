@@ -60,11 +60,11 @@ public class BayesianNetwork {
                         variable.updateOutcome(outcomeNodes.item(j).getTextContent());
                     }
 
-                    // Check that outcomes are ok - can be deleted when done
-                    System.out.println(variable.getName() + " outcomes: ");
-                    for (String outcome : variable.getOutcomes()) {
-                        System.out.println(outcome);
-                    }
+//                    // Check that outcomes are ok - can be deleted when done
+//                    System.out.println(variable.getName() + " outcomes: ");
+//                    for (String outcome : variable.getOutcomes()) {
+//                        System.out.println(outcome);
+//                    }
 
                 }
             }
@@ -112,6 +112,14 @@ public class BayesianNetwork {
     /****************** Getters and Setters ******************/
     public List<Variable> getVariables() {
         return variables;
+    }
+
+    public Variable getVariable(String name) {
+        for (Variable variable : this.variables) {
+            if (variable.getName().equals(name))
+                return variable;
+        }
+        return null;
     }
 }
 

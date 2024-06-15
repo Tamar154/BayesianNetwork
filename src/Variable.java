@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class Variable {
     private String name;
@@ -26,6 +27,15 @@ public class Variable {
         this.children.add(child);
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null || getClass() != obj.getClass())
+            return false;
+        Variable variable = (Variable) obj;
+        return Objects.equals(name, variable.name);
+    }
 
     /****************** Getters and Setters ******************/
     public String getName() {
