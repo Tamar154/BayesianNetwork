@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class BayesianNetwork {
     //    private Map<Variable, List<Variable>> adjacencyList;
@@ -18,6 +19,10 @@ public class BayesianNetwork {
     public BayesianNetwork(File file) {
         variables = new ArrayList<>();
         parseXML(file);
+    }
+
+    public BayesianNetwork(BayesianNetwork original) {
+        this.variables = original.variables.stream().map(Variable::new).collect(Collectors.toList());
     }
 
     /**
