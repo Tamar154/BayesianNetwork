@@ -1,3 +1,5 @@
+import java.util.Objects;
+
 public class VariablePair {
     public Variable variable;
     public String direction;
@@ -19,4 +21,8 @@ public class VariablePair {
         return direction.equals(that.direction);
     }
 
+    @Override
+    public int hashCode() {
+        return Objects.hash(variable, direction);
+    }
 }

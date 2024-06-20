@@ -3,7 +3,9 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -45,10 +47,13 @@ public class InputParser {
     }
 
     public boolean isVariableEliminationQuery(String query) {
-        String veRegex = "^P\\(.*\\) [A-Z](-[A-Z])*(-[A-Z])?$";
+//        String veRegex = "^P\\([a-zA-Z0-9]+=\\w+(\\|([a-zA-Z0-9]+=\\w+(,[a-zA-Z0-9]+=\\w+)*)?)?\\) [a-zA-Z0-9]+(-[a-zA-Z0-9]+)*$";
+        String veRegex = "^P\\([a-zA-Z0-9]+=\\w+(\\|([a-zA-Z0-9]+=\\w+(,[a-zA-Z0-9]+=\\w+)*)?)?\\)( [a-zA-Z0-9]+(-[a-zA-Z0-9]+)*)?$";
+
         Pattern pattern = Pattern.compile(veRegex);
         Matcher matcher = pattern.matcher(query);
         return matcher.matches();
     }
 
 }
+

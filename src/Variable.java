@@ -1,12 +1,11 @@
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 public class Variable {
     private String name;
     //    private Map<Set<String>, Float> cpt;
-    private CPT cpt = new CPT();
+    private CPT cpt;
     private List<Variable> parents = new ArrayList<>();
     private List<Variable> children = new ArrayList<>();
     private List<String> outcomes = new ArrayList<>();
@@ -14,14 +13,7 @@ public class Variable {
 
     public Variable(String name) {
         this.name = name;
-    }
-
-    public Variable(Variable original) {
-        this.name = original.name;
-        this.cpt = new CPT(original.cpt); // Assuming CPT has a copy constructor
-        this.parents = original.parents.stream().map(Variable::new).collect(Collectors.toList());
-        this.children = original.children.stream().map(Variable::new).collect(Collectors.toList());
-        this.outcomes = new ArrayList<>(original.outcomes);
+        this.cpt = new CPT();
     }
 
     public void updateOutcome(String outcome) {
@@ -89,3 +81,4 @@ public class Variable {
 
 
 }
+

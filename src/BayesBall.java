@@ -1,4 +1,9 @@
-import java.util.*;
+
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
 
 public class BayesBall {
     private Variable start;
@@ -33,11 +38,9 @@ public class BayesBall {
 
             // handle evidence variable
             if (evidences.contains(current.variable)) {
-//                if (current.direction.equals("up") || current.direction.equals("none")) {
                 for (Variable parent : current.variable.getParents()) {
                     queue.add(new VariablePair(parent, "up"));
                 }
-//                }
             } else { // handle non-evidence variable
                 if (current.direction.equals("up") || current.direction.equals("none")) {
                     for (Variable parent : current.variable.getParents()) {

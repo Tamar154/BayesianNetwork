@@ -1,5 +1,4 @@
 import java.util.*;
-import java.util.stream.Collectors;
 
 public class CPT {
     /*
@@ -10,11 +9,6 @@ public class CPT {
 
     public CPT() {
         this.cpt = new HashMap<>();
-    }
-
-    public CPT(CPT original) {
-        this.cpt = original.cpt.entrySet().stream()
-                .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue));
     }
 
     public void updateCPT(Variable variable, List<Variable> parents, float[] probabilities) {
@@ -70,5 +64,13 @@ public class CPT {
             cptString.append(key).append(" : ").append(probability).append("\n");
         }
         return cptString.toString();
+    }
+
+    public Map<Set<String>, Float> getCpt() {
+        return this.cpt;
+    }
+
+    public Map<Set<String>, Float> getTable() {
+        return this.cpt;
     }
 }
