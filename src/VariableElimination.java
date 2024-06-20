@@ -144,15 +144,15 @@ public class VariableElimination {
     }
 
     private Factor createFactor(Variable variable) {
-        Set<String> factorVariables = new HashSet<>();
-        factorVariables.add(variable.getName());
+        List<String> factorVariables = new LinkedList<>();
+        factorVariables.add(0, variable.getName());
         for (Variable parent : variable.getParents()) {
             factorVariables.add(parent.getName());
         }
 
         Factor factor = new Factor(factorVariables);
 
-        for (Map.Entry<Set<String>, Float> entry : variable.getCpt().getTable().entrySet()) {
+        for (Map.Entry<List<String>, Float> entry : variable.getCpt().getTable().entrySet()) {
             Map<String, String> assignment = new HashMap<>();
             for (String outcome : entry.getKey()) {
                 String[] parts = outcome.split("=");
@@ -168,7 +168,7 @@ public class VariableElimination {
         List<Factor> updatedFactors = new LinkedList<>();
         for (Factor factor : factors) {
             if (factor.getVariables().contains(variable)) {
-                Factor restrictedFactor = new Factor(new HashSet<>(factor.getVariables()));
+                Factor restrictedFactor = new Factor(new LinkedList<>(factor.getVariables()));
                 for (Map.Entry<Map<String, String>, Float> entry : factor.getValues().entrySet()) {
                     if (value.equals(entry.getKey().get(variable))) {
                         Map<String, String> newAssignment = new HashMap<>(entry.getKey());

@@ -6,7 +6,7 @@ public class Ex1 {
     public static void main(String[] args) {
 
         try {
-            File input = new File("input2.txt");
+            File input = new File("input.txt");
             InputParser parser = new InputParser(input);
 
             BayesianNetwork bn = parser.bn;

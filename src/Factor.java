@@ -1,18 +1,18 @@
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public class Factor {
-    private Set<String> variables;
+    private List<String> variables;
     private Map<Map<String, String>, Float> values;
 
-    public Factor(Set<String> variables) {
-        this.variables = new HashSet<>(variables);
+    public Factor(List<String> variables) {
+        this.variables = new LinkedList<>(variables);
         this.values = new HashMap<>();
     }
 
-    public Set<String> getVariables() {
+    public List<String> getVariables() {
         return variables;
     }
 
@@ -29,7 +29,7 @@ public class Factor {
     }
 
     public Factor multiply(Factor other, VariableElimination ve) {
-        Set<String> newVariables = new HashSet<>(this.variables);
+        List<String> newVariables = new LinkedList<>(this.variables);
         newVariables.addAll(other.variables);
 
         Factor result = new Factor(newVariables);
@@ -60,7 +60,7 @@ public class Factor {
     }
 
     public Factor sumOut(String variable, VariableElimination ve) {
-        Set<String> newVariables = new HashSet<>(this.variables);
+        List<String> newVariables = new LinkedList<>(this.variables);
         newVariables.remove(variable);
 
         Factor result = new Factor(newVariables);
@@ -70,7 +70,7 @@ public class Factor {
             Map<String, String> reducedAssignment = new HashMap<>(assignment);
             reducedAssignment.remove(variable);
 
-            //  Add the current value if the reduced assignment is already present
+            //  Add the current value if reduced assignment already present
             if (newValues.containsKey(reducedAssignment)) {
                 newValues.put(reducedAssignment, newValues.get(reducedAssignment) + this.values.get(assignment));
                 ve.incrementAddCount();
