@@ -125,7 +125,12 @@ public class VariableElimination {
         int endIndexOfEvidences = probabilityExpression.indexOf(")");
 
         if (startIndexOfEvidences == 0 || endIndexOfEvidences == -1 || startIndexOfEvidences >= endIndexOfEvidences) {
-            throw new IllegalArgumentException("Invalid probability expression: " + probabilityExpression);
+            // Check for hidden variables (H1-H2-...-Hj)
+            if (parts.length > 1) {
+                String hiddenVariables = parts[1];
+                hidden.addAll(List.of(hiddenVariables.split("-")));
+            }
+            return;
         }
 
         String evidencesString = probabilityExpression.substring(startIndexOfEvidences, endIndexOfEvidences);
