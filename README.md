@@ -28,6 +28,7 @@ This project implements probabilistic inference in Bayesian networks using the *
 
 1. Compile the Java file:
    ```bash
+   cd src
    javac Ex1.java
    ```
 2. Run the program:
